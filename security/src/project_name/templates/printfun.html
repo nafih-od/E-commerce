@@ -1,0 +1,20 @@
+{% block content %}
+<section id="printfun">
+    <section class="wrapper">
+        {% if print_instance %}
+            <ul>
+                {% for printfun in print_instance %}
+                    <li>
+                        <div class="top">
+                            <h3>{{ printfun.title }}</h3>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            <br class="clear">
+        {% else %}
+            <p>No data found!</p>
+        {% endif %}
+    </section>
+</section>
+{% endblock %}
