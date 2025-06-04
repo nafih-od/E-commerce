@@ -1,0 +1,186 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
+{#    <title>Enter Your Name</title>#}
+{#    <style>#}
+{#        body {#}
+{#            font-family: Arial, sans-serif;#}
+{#            background-color: #f4f4f4;#}
+{#            text-align: center;#}
+{#            padding: 50px;#}
+{#        }#}
+{##}
+{#        h2 {#}
+{#            color: #333;#}
+{#        }#}
+{##}
+{#        form {#}
+{#            background: white;#}
+{#            padding: 20px;#}
+{#            border-radius: 10px;#}
+{#            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);#}
+{#            display: inline-block;#}
+{#        }#}
+{##}
+{#        input[type="text"] {#}
+{#            width: 200px;#}
+{#            padding: 10px;#}
+{#            margin: 10px 0;#}
+{#            border: 1px solid #ccc;#}
+{#            border-radius: 5px;#}
+{#            font-size: 16px;#}
+{#        }#}
+{##}
+{#        input[type="submit"] {#}
+{#            background-color: #007bff;#}
+{#            color: white;#}
+{#            padding: 10px 20px;#}
+{#            border: none;#}
+{#            border-radius: 5px;#}
+{#            cursor: pointer;#}
+{#            font-size: 16px;#}
+{#        }#}
+{##}
+{#        input[type="submit"]:hover {#}
+{#            background-color: #0056b3;#}
+{#        }#}
+{#    </style>#}
+{#</head>#}
+{#<body>#}
+{#    <h2>_FORM_ </h2>#}
+{##}
+{#    <form method="POST">#}
+{#        {% csrf_token %}#}
+{#        <input type="text" name="name" placeholder="Enter your name"><br>#}
+{#        <input type="text" name="host" placeholder="Enter host address for  ping and scan ports"><br>#}
+{#        <input type="text" name="domain" placeholder="Enter host address for  ssl, ssllabs,  hhtp security header, detect_waf_and_cloudflare"><br>#}
+{#        <input type="text" name="domain" placeholder="Enter host address for  ssllabs"><br>#}
+{#        <input type="text" name="domain" placeholder="Enter host address for  hhtp security header"><br>#}
+{#        <input type="text" name="tech_name" placeholder="Enter host address for  cve lookup test"><br>#}
+{#        <input type="text" name="domain" placeholder="Enter host address for  detect_waf_and_cloudflare"><br>#}
+{##}
+{##}
+{#        <input type="submit" value="Submit">#}
+{#    </form>#}
+{##}
+{#    <h2>Enter Host Address</h2>#}
+{#    <form method="POST">#}
+{#        {% csrf_token %}#}
+{#        <input type="text" name="domain" placeholder="Enter host address">#}
+{#        <input type="submit" value="Submit">#}
+{##}
+{#    </form>#}
+{##}
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        input, select, button {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script>
+        function showInput() {
+            var selectedOption = document.getElementById("option").value;
+            var inputFields = document.getElementsByClassName("input-field");
+
+            for (var i = 0; i < inputFields.length; i++) {
+                inputFields[i].style.display = "none";
+            }
+
+            var selectedField = document.getElementById(selectedOption);
+            if (selectedField) {
+                selectedField.style.display = "block";
+            }
+        }
+    </script>
+</head>
+
+
+<h2 style="text-align: center;">Hello</h2>
+<form method="POST">
+    {% csrf_token %}
+
+    <label for="name">Name:</label>
+    <input type="text" name="name" required>
+
+    <label for="option">Select Option:</label>
+    <select name="option" id="option" onchange="showInput()">
+        <option value="">-- Select an option --</option>
+        <option value="ping">Ping</option>
+        <option value="ssl">SSL</option>
+        <option value="securityheaders">Security Headers</option>
+        <option value="cloudflare">Cloudflare</option>
+        <option value="cvelookup">CVE Lookup</option>
+        <option value="ns_lookup">NS Lookup</option>
+        <option value="check_ssllabs">Check SSL Labs</option>
+    </select>
+
+    <div id="ping" class="input-field" style="display: none;">
+        <label for="host">Ping Host:</label>
+        <input type="text" name="host" placeholder="Enter host address">
+    </div>
+
+    <div id="ssl" class="input-field" style="display: none;">
+        <label for="domain">SSL Host:</label>
+        <input type="text" id="domain" name="domain" placeholder="Enter host address">
+    </div>
+
+    <div id="securityheaders" class="input-field" style="display: none;">
+        <label for="header_domain">Security Headers:</label>
+        <input type="text" name="header_domain" placeholder="Enter host address">
+    </div>
+
+    <div id="cloudflare" class="input-field" style="display: none;">
+        <label for="waf_domain">Cloudflare Host:</label>
+        <input type="text" name="waf_domain" placeholder="Enter host address">
+    </div>
+
+    <div id="cvelookup" class="input-field" style="display: none;">
+        <label for="tech_name">CVE Lookup:</label>
+        <input type="text" name="tech_name" placeholder="Enter technology name">
+    </div>
+
+    <div id="ns_lookup" class="input-field" style="display: none;">
+        <label for="ns_domain">NS Lookup:</label>
+        <input type="text" name="ns_domain" placeholder="Enter host address">
+    </div>
+
+    <div id="check_ssllabs" class="input-field" style="display: none;">
+        <label for="domain">SSL Labs Check:</label>
+        <input type="text" name="domain" placeholder="Enter host address">
+    </div>
+
+    <button type="submit">Submit</button>
+</form>
+
+</body>
+</html>
