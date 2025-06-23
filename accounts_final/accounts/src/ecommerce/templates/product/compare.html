@@ -1,0 +1,108 @@
+<html>
+<body>
+<div class="container py-5">
+    <h1 class="mb-4">Compare Products</h1>
+    
+    <form method="GET" class="row mb-5">
+        <!-- Product 1 Selection -->
+        <div class="col-md-5">
+            <select name="product1" class="form-select" onchange="this.form.submit()">
+                <option value="">Select Product 1</option>
+                {% for product in products %}
+                    <option value="{{ product.id }}" 
+                        {% if product1 and product.id == product1.id %}selected{% endif %}>
+                        {{ product.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            
+            {% if product1 %}
+            <div class="card mt-3">
+                <img src="{{ product1.cover_image.url }}" class="card-img-top" alt="{{ product1.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product1.name }}</h5>
+                    <p class="card-text">${{ product1.price }}</p>
+                    <p class="card-text">{{ product1.brand.name }}</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- VS Separator -->
+        <div class="col-md-2 d-flex align-items-center justify-content-center">
+            <h2 class="text-muted">VS</h2>
+        </div>
+        
+        <!-- Product 2 Selection -->
+        <div class="col-md-5">
+            <select name="product2" class="form-select" onchange="this.form.submit()">
+                <option value="">Select Product 2</option>
+                {% for product in products %}
+                    <option value="{{ product.id }}" 
+                        {% if product2 and product.id == product2.id %}selected{% endif %}>
+                        {{ product.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            
+            {% if product2 %}
+            <div class="card mt-3">
+                <img src="{{ product2.cover_image.url }}" class="card-img-top" alt="{{ product2.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product2.name }}</h5>
+                    <p class="card-text">${{ product2.price }}</p>
+                    <p class="card-text">{{ product2.brand.name }}</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </form>
+    
+    <!-- Comparison Table -->
+    {% if product1 and product2 %}
+    <div class="mt-5">
+        <h2 class="mb-4">Specification Comparison</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>Specification</th>
+                        <th>{{ product1.name }}</th>
+                        <th>{{ product2.name }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in comparison_data %}
+                    <tr {% if item.is_different %}class="table-warning"{% endif %}>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.value1 }}</td>
+                        <td>{{ item.value2 }}</td>
+                    </tr>
+                    {% endfor %}
+                    
+                    <!-- Features Comparison -->
+                    <tr>
+                        <td>Features</td>
+                        <td>
+                            <ul class="list-unstyled">
+                                {% for feature in product1.features.all %}
+                                    <li>{{ feature.features }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            <ul class="list-unstyled">
+                                {% for feature in product2.features.all %}
+                                    <li>{{ feature.features }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+</div>
+</body>
+</html>

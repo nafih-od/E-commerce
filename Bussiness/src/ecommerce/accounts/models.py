@@ -68,11 +68,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=100, unique=True)
     phone_number = models.CharField(max_length=11, blank=True, null=True)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, blank=True, null=True)
-    is_active = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now=True)
     is_admin = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_deleted = models.BooleanField(default=False)
@@ -93,31 +92,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_role_display(self):
         return dict(self.ROLE_CHOICES).get(self.role, "Unknown")
 
-
-    # class UserProfile(BaseModel):
-    #     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    #     address_line_1 = models.CharField(max_length=100, blank=True, null=True)
-    #     address_line_2 = models.CharField(max_length=100, blank=True, null=True)
-    #     address_line_3 = models.CharField(max_length=100, blank=True, null=True)
-    #     district = models.CharField(max_length=100, blank=True, null=True)
-    #     state = models.CharField(max_length=100, blank=True, null=True)
-    #     country = models.CharField(max_length=100, blank=True, null=True)
-    #     zip_code = models.CharField(max_length=100, blank=True, null=True)
-    #     is_organization = models.BooleanField(default=False)
-    #     organization_name = models.CharField(max_length=100, blank=True, null=True)
-    #
-    #     profile_image = VersatileImageField('Profile Image', upload_to='users/profile', blank=True, null=True, ppoi_field='profile_image_ppoi')
-    #     profile_image_ppoi = PPOIField()
-    #     cover_image = VersatileImageField('Cover Image', upload_to='users/profile/cover', blank=True, null=True, ppoi_field='cover_image_ppoi')
-    #     cover_image_ppoi = PPOIField()
-    #
-    #     class Meta:
-    #         db_table = "account_user_profile"
-    #         verbose_name = "User Profile"
-    #         verbose_name_plural = "User Profiles"
-    #
-    #     def __str__(self):
-    #         return self.user.email
 
 
 class UserProfile(BaseModel):

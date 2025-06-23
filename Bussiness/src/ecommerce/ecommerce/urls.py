@@ -16,9 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from ecommerce import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("accounts/", include("accounts.urls")),
+    # path("accounts/", include("accounts.urls")),
+    path('product/', include("products.urls",namespace="product")),
+
 ]
+
+
+
 
