@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>{{ product.name }} Details</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 20px;
+        color: #333;
+      }
+      .container {
+        max-width: 800px;
+        margin: auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: center;
+      }
+      .header img {
+        max-width: 300px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+      }
+      .info {
+        flex: 1;
+      }
+      .info h1 {
+        margin: 0;
+        font-size: 2em;
+        color: #444;
+      }
+      .info p.price {
+        color: #e74c3c;
+        font-size: 1.5em;
+        margin: 10px 0;
+      }
+      .info p.details {
+        margin: 5px 0;
+      }
+      .description, .product-features {
+        margin: 20px 0;
+        line-height: 1.6;
+      }
+      .dynamic-properties {
+        border-top: 1px solid #ddd;
+        padding-top: 15px;
+        margin-top: 20px;
+      }
+      .dynamic-properties h3 {
+        margin: 0 0 10px 0;
+      }
+      .dynamic-properties ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      .dynamic-properties li {
+        margin-bottom: 5px;
+      }
+      .all-fields {
+        border-top: 2px solid #007BFF;
+        padding-top: 20px;
+        margin-top: 20px;
+      }
+      .all-fields h2 {
+        color: #007BFF;
+      }
+      .back-link {
+        display: inline-block;
+        margin-top: 20px;
+        text-decoration: none;
+        color: #007BFF;
+      }
+      .back-link:hover {
+        text-decoration: underline;
+      }
+      /* Styles for the Product Features section */
+      .product-features h2 {
+        color: #444;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 5px;
+      }
+      .product-features ul {
+        list-style: disc;
+        padding-left: 20px;
+      }
+      .product-features li {
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        {% if product.cover_image %}
+          <img src="{{ product.cover_image.url }}" alt="{{ product.name }} image">
+        {% endif %}
+        <div class="info">
+          <h1>{{ product.name }}</h1>
+          <p class="price">₹{{ product.price }}</p>
+          <p class="details"><strong>Brand:</strong> {{ product.brand.name }}</p>
+          <p class="details"><strong>Category:</strong> {{ product.category.name }}</p>
+
+          {% if product.release_date %}
+            <p class="details"><strong>Release Date:</strong> {{ product.release_date }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="description">
+        <h2>Description</h2>
+        <p>{{ product.description }}</p>
+      </div>
+
+      {% if product.dynamic_properties %}
+      <div class="dynamic-properties">
+        <h3>Product Specifications</h3>
+        <ul>
+          {% for key, value in product.dynamic_properties.items %}
+            <li><strong>{{ key|title }}:</strong> {{ value }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+
+      <!-- Section to list product features -->
+      {% if features %}
+      <div class="product-features">
+        <h2>Product Features</h2>
+        <ul>
+          {% for feature in features %}
+            <li>{{ feature.features }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+
+      <!-- Section to dynamically list all model fields if needed -->
+      <div class="all-fields">
+        <h2>All Product Information</h2>
+          <p class="price">₹{{ product.price }}</p>
+          <p class="details"><strong>Brand:</strong> {{ product.brand.name }}</p>
+          <p class="details"><strong>Category:</strong> {{ product.category.name }}</p>
+
+
+      </div>
+
+      <form id="add-to-cart-form-{{ product.id }}" action="{% url 'cart:add' product.id %}" method="post">
+        {% csrf_token %}
+        <label for="quantity">Quantity:</label>
+        <input type="number" name="quantity" id="quantity" value="1" min="1" required>
+        {% if request.user.is_authenticated %}
+        <button type="submit" class="btn btn-primary">Add to Cart</button>
+        {% else %}
+        <button type="button" class="btn btn-primary" onclick="showLoginPopup()">Add to Cart</button>
+        {% endif %}
+      </form>
+
+
+
+      <script>
+        function showLoginPopup() {
+          alert("Please log in to add items to your cart.");
+          window.location.href = "{% url 'account:login_user' %}";
+        }
+      </script>
+
+
+      <a href="javascript:history.back()" class="back-link">&larr; Back</a>
+    </div>
+
+  </body>
+</html>
