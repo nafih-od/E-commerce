@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Product</title>
+</head>
+<body>
+    <h1>Add Product</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {{ product_form.as_p }}
+
+        <button type="submit">Add Product</button>
+    </form>
+
+    {% if product_form.errors %}
+        <div style="color: red;">
+            <h3>Form Errors:</h3>
+            <ul>
+                {% for field in product_form %}
+                    {% for error in field.errors %}
+                        <li><strong>{{ field.label }}:</strong> {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</body>
+</html>

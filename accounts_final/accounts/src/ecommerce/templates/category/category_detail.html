@@ -1,0 +1,86 @@
+<html>
+  <head>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 20px;
+        color: #333;
+      }
+
+      h2 {
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .product-list {
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      .product-list li {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 15px;
+        width: 200px;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .product-list li:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      }
+
+      .product-list img {
+        max-width: 100%;
+        height: auto;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 10px;
+      }
+
+      .product-list strong {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 1.1em;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      a:hover {
+        color: #007BFF;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Products in {{ category.name }}</h2>
+    {% if product_list %}
+      <ul class="product-list">
+        {% for product in product_list %}
+          <li>
+            <a href="{% url 'product_detail' product.id %}">
+              {% if product.cover_image %}
+                <img src="{{ product.cover_image.url }}"
+                     alt="{{ product.name }}">
+              {% endif %}
+              <strong>{{ product.name }}</strong><br>
+              ₹{{ product.price }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No products found in this category</p>
+    {% endif %}
+  </body>
+</html>

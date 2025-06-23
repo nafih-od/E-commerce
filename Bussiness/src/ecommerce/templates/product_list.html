@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>products</title>
+</head>
+<body>
+<div>
+        {% for field, value in product.items %}
+            <p>{{ field }}: {{ value }}</p>
+
+        {% endfor %}
+        {% for image in product.image.all %}
+            <img src="{{ image.image.url }}" alt="Image of {{ product.name }}" width="200px">
+        {% empty %}
+            <p>no image found</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

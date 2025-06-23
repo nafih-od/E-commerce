@@ -2,10 +2,13 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from django import forms
+from base.models import BaseModel
+
+
 # from brand.utils import validate_brand_name, validate_website_url
 
 
-class Brand(models.Model):
+class Brand(BaseModel):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
     logo = models.ImageField(upload_to='brands/logos/')
